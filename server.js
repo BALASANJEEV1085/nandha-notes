@@ -18,8 +18,10 @@ const allowedOrigins = [
     'http://localhost:3000',
     'http://localhost:8080',
     'http://127.0.0.1:8080',
-    'null'
+    'null',
+    'https://nandha-notes.netlify.app'   // ✅ add your Netlify URL here
 ];
+
 app.use(cors({
     origin: (origin, callback) => {
         if (!origin || allowedOrigins.includes(origin)) {
@@ -572,4 +574,5 @@ app.get("/api/file/:id", async (req, res) => {
 // Start Server
 app.listen(port, () => {
     console.log(`Server running on http://localhost:${port}`);
+
 });
