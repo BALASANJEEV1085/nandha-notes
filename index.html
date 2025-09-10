@@ -1,0 +1,2384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="logo1.png">
+    <title>NANDHA NOTES</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --primary-gradient: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+            --secondary: #3498db;
+            --accent: #e67e22;
+            --success: #2ecc71;
+            --warning: #f1c40f;
+            --danger: #e74c3c;
+            --light: #f8f9fa;
+            --dark: #1a1a1a;
+            --gray-100: #f5f6f8;
+            --gray-200: #e9ecef;
+            --gray-300: #dee2e6;
+            --gray-400: #ced4da;
+            --gray-500: #adb5bd;
+            --gray-600: #6c757d;
+            --gray-700: #495057;
+            --gray-800: #343a40;
+            --gray-900: #212529;
+            --border-radius: 8px;
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+            --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+            --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.1), 0 5px 10px rgba(0, 0, 0, 0.05);
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        body {
+            background-color: var(--gray-100);
+            color: var(--dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .parent {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            grid-template-rows: auto 1fr;
+            min-height: 100vh;
+        }
+
+        /* Header Styles */
+        .div1 {
+            grid-area: 1 / 1 / 2 / 3;
+            background: var(--primary-gradient);
+            color: white;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 24px;
+            box-shadow: var(--shadow-md);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            min-height: 70px;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .hamburger-menu {
+            display: none;
+            cursor: pointer;
+            font-size: 1.5em;
+            padding: 8px;
+        }
+
+        .logo {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            object-fit: cover;
+            cursor: pointer;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            transition: var(--transition);
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+            border-color: rgba(255, 255, 255, 0.4);
+        }
+
+        .header-title {
+            font-size: 1.5em;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .header-center {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            padding: 0 16px;
+            max-width: 500px;
+        }
+
+        .search-container {
+            position: relative;
+            width: 100%;
+        }
+
+        .search-bar {
+            width: 100%;
+            padding: 12px 40px 12px 16px;
+            border-radius: var(--border-radius);
+            border: none;
+            outline: none;
+            font-size: 0.95em;
+            background-color: rgba(255, 255, 255, 0.95);
+            transition: var(--transition);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .search-bar:focus {
+            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.3);
+            transform: translateY(-1px);
+        }
+
+        .clear-search {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            display: none;
+            font-size: 1.5em;
+            color: var(--gray-600);
+            line-height: 1;
+        }
+
+        .clear-search:hover {
+            color: var(--gray-800);
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .upload-btn {
+            background-color: var(--accent);
+            border-radius: var(--border-radius);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            font-size: 0.9em;
+            font-weight: 600;
+            min-height: 44px;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .upload-btn:hover {
+            background-color: #d35400;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .profile {
+            width: 44px;
+            height: 44px;
+            background-color: #ffffff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            position: relative;
+            font-size: 20px;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+            border: 2px solid transparent;
+        }
+
+        .profile:hover {
+            transform: scale(1.05);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .profile-menu {
+            display: none;
+            position: absolute;
+            top: 55px;
+            right: 0;
+            background-color: white;
+            color: var(--dark);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-lg);
+            width: 240px;
+            z-index: 100;
+            overflow: hidden;
+        }
+
+        .profile-menu p {
+            padding: 10px 14px;
+            margin: 0;
+            border-bottom: 1px solid var(--gray-200);
+            font-size: 0.8em;
+            line-height: 1.3;
+            word-wrap: break-word;
+            white-space: normal;
+            display: block;
+        }
+
+        .profile-menu p strong {
+            display: block;
+            margin-bottom: 2px;
+        }
+
+        .profile-menu button {
+            width: 100%;
+            padding: 14px 16px;
+            border: none;
+            background-color: var(--danger);
+            color: white;
+            cursor: pointer;
+            font-size: 0.9em;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .profile-menu button:hover {
+            background-color: #c0392b;
+        }
+
+        /* Sidebar Styles */
+        .div2 {
+            position: fixed;
+            top: 70px;
+            left: 0;
+            width: 280px;
+            height: calc(100vh - 70px);
+            background-color: #ffffff;
+            padding: 20px;
+            border-right: 1px solid var(--gray-300);
+            display: flex;
+            flex-direction: column;
+            box-shadow: var(--shadow-sm);
+            z-index: 1100;
+            overflow-y: auto;
+        }
+
+        .close-sidebar {
+            display: none;
+            cursor: pointer;
+            font-size: 1.5em;
+            padding: 8px;
+            align-self: flex-end;
+        }
+
+        .channel-actions {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+        }
+
+        .channel-actions button {
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            font-size: 1.3em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .channel-actions button:hover {
+            transform: scale(1.1);
+            box-shadow: var(--shadow-md);
+        }
+
+        #createChannelBtn {
+            background-color: var(--success);
+            color: white;
+        }
+
+        #joinChannelBtn {
+            background-color: var(--warning);
+            color: var(--dark);
+        }
+
+        .channel-list {
+            margin-top: 35px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            flex-grow: 1;
+        }
+
+        .channel-item {
+            padding: 12px 16px;
+            background: linear-gradient(135deg, #dfe6e9 0%, #b2bec3 100%);
+            color: var(--primary);
+            border: none;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-size: 0.95em;
+            font-weight: 500;
+            min-height: 44px;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            animation: channelFadeIn 0.3s ease-in-out;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .channel-item::before {
+            content: '💬';
+            font-size: 1.1em;
+        }
+
+        .channel-item:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        @keyframes channelFadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .sidebar-footer {
+            display: none;
+            border-top: 1px solid var(--gray-300);
+            padding-top: 16px;
+            margin-top: auto;
+        }
+
+        .sidebar-footer .upload-btn {
+            width: 100%;
+            justify-content: center;
+            margin-bottom: 12px;
+        }
+
+        .sidebar-footer .profile {
+            width: 100%;
+            height: 44px;
+            border-radius: var(--border-radius);
+            font-size: 1em;
+            justify-content: flex-start;
+            padding: 0 16px;
+        }
+
+        .sidebar-footer .profile-menu {
+            top: auto;
+            bottom: 50px;
+            width: 100%;
+            left: 0;
+        }
+
+        /* Main Content Area */
+        .div3 {
+            grid-area: 2 / 2 / 3 / 3;
+            padding: 24px;
+            background-color: var(--gray-100);
+        }
+
+        .default-content {
+            display: block;
+        }
+
+        .default-content h2 {
+            font-size: 1.8em;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid var(--gray-300);
+        }
+
+        .default-content p {
+            font-size: 1em;
+            color: var(--gray-700);
+        }
+
+        .channel-content {
+            display: none;
+            flex-direction: column;
+            height: 100%;
+            background: none;
+            border-radius: 0;
+            box-shadow: none;
+            animation: channelFadeIn 0.3s ease-in-out;
+        }
+
+        .channel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--gray-300);
+            background-color: white;
+            border-radius: var(--border-radius) var(--border-radius) 0 0;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .channel-header h2 {
+            font-size: 1.6em;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .channel-header-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .channel-header-buttons button {
+            padding: 10px 16px;
+            border: none;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-size: 0.9em;
+            font-weight: 600;
+            min-height: 40px;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .home-btn {
+            background-color: var(--gray-600);
+            color: white;
+        }
+
+        .home-btn:hover {
+            background-color: var(--gray-700);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .view-users-btn {
+            background-color: #8e44ad;
+            color: white;
+        }
+
+        .view-users-btn:hover {
+            background-color: #7d3c98;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .share-btn {
+            background-color: var(--secondary);
+            color: white;
+        }
+
+        .share-btn:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        /* Document Grid Layout */
+        .channel-messages,
+        #globalMessages {
+            flex: 1;
+            overflow-y: auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 20px;
+            padding: 20px;
+            background: none;
+            border-radius: 0;
+            box-shadow: none;
+        }
+
+        .document-item {
+            min-height: 200px;
+            max-height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 18px;
+            background: linear-gradient(135deg, #ffffff, #f8f9fa);
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            border: 1px solid #e6e6e6;
+            position: relative;
+        }
+
+        .document-item:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+        }
+
+        .document-details {
+            margin-bottom: 14px;
+        }
+
+        .document-details p {
+            margin: 6px 0;
+            font-size: 0.88em;
+            color: var(--gray-700);
+            line-height: 1.4;
+        }
+
+        .document-details strong {
+            color: var(--primary);
+            font-weight: 600;
+            display: inline-block;
+            min-width: 90px;
+        }
+
+        .document-details a.uploaded-by {
+            color: var(--secondary);
+            text-decoration: none;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .document-details a.uploaded-by:hover {
+            color: #2980b9;
+            text-decoration: underline;
+        }
+
+        .document-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: auto;
+            gap: 12px;
+        }
+
+        .preview-btn,
+        .download-btn {
+            flex: 1;
+            padding: 10px 16px;
+            border: none;
+            border-radius: 30px;
+            font-size: 0.85em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+        }
+
+        .preview-btn {
+            background: #9b59b6;
+            color: #fff;
+        }
+
+        .preview-btn:hover {
+            background: #8e44ad;
+        }
+
+        .download-btn {
+            background: var(--secondary);
+            color: #fff;
+        }
+
+        .download-btn:hover {
+            background: #2980b9;
+        }
+
+        .channel-footer {
+            padding: 16px 20px;
+            border-top: 1px solid var(--gray-300);
+            background-color: white;
+            border-radius: 0 0 var(--border-radius) var(--border-radius);
+            box-shadow: var(--shadow-sm);
+        }
+
+        /* Modal Styles */
+        .upload-modal,
+        .create-channel-modal,
+        .view-users-modal,
+        .join-channel-modal,
+        .view-profile-modal,
+        .share-channel-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(5px);
+        }
+
+        .upload-modal-content,
+        .create-channel-modal-content,
+        .view-users-modal-content,
+        .join-channel-modal-content,
+        .view-profile-modal-content,
+        .share-channel-modal-content {
+            background-color: #ffffff;
+            border-radius: var(--border-radius);
+            padding: 24px;
+            width: 100%;
+            max-width: 420px;
+            box-shadow: var(--shadow-lg);
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            animation: modalSlideIn 0.3s ease-out;
+        }
+
+        @keyframes modalSlideIn {
+            from { opacity: 0; transform: translateY(-50px) scale(0.95); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .upload-modal-content {
+            max-width: 260px;
+            padding: 12px;
+            gap: 8px;
+            font-size: 0.85em;
+        }
+
+        .upload-modal-content h3 {
+            font-size: 1.1em;
+            margin-bottom: 6px;
+        }
+
+        .upload-modal-content input[type="file"],
+        .upload-modal-content input[type="text"],
+        .upload-modal-content select,
+        .upload-modal-content textarea {
+            min-height: 48px;
+            padding: 14px;
+            font-size: 1em;
+        }
+
+        .upload-modal-content h3,
+        .create-channel-modal-content h3,
+        .view-users-modal-content h3,
+        .join-channel-modal-content h3,
+        .view-profile-modal-content h3,
+        .share-channel-modal-content h3 {
+            font-size: 1.5em;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 8px;
+        }
+
+        .upload-modal-content input[type="file"],
+        .upload-modal-content input[type="text"],
+        .upload-modal-content select,
+        .upload-modal-content textarea,
+        .create-channel-modal-content input[type="text"],
+        .join-channel-modal-content input[type="text"] {
+            padding: 14px;
+            border: 1px solid var(--gray-300);
+            border-radius: var(--border-radius);
+            font-size: 1em;
+            font-weight: 500;
+            outline: none;
+            transition: var(--transition);
+            min-height: 48px;
+            width: 100%;
+        }
+
+        .upload-modal-content input:focus,
+        .upload-modal-content select:focus,
+        .upload-modal-content textarea:focus,
+        .create-channel-modal-content input:focus,
+        .join-channel-modal-content input:focus {
+            border-color: var(--secondary);
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+        }
+
+        .upload-modal-content .error-message,
+        .create-channel-modal-content .error-message,
+        .join-channel-modal-content .error-message {
+            color: var(--danger);
+            font-size: 0.85em;
+            text-align: left;
+            display: none;
+            margin-top: -8px;
+        }
+
+        .view-users-modal-content .user-list {
+            max-height: 240px;
+            overflow-y: auto;
+            padding: 12px;
+            border: 1px solid var(--gray-300);
+            border-radius: var(--border-radius);
+            background-color: var(--gray-100);
+        }
+
+        .view-users-modal-content .user-list p {
+            font-size: 0.9em;
+            color: var(--gray-700);
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            cursor: pointer;
+            border-bottom: 1px solid var(--gray-300);
+            transition: var(--transition);
+        }
+
+        .view-users-modal-content .user-list p:hover {
+            background-color: var(--gray-200);
+            border-radius: var(--border-radius);
+        }
+
+        .view-users-modal-content .user-list .admin-tag {
+            color: var(--success);
+            font-weight: 600;
+            margin-left: 8px;
+        }
+
+        .view-users-modal-content .user-list .user-options {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-lg);
+            z-index: 100;
+            min-width: 140px;
+            overflow: hidden;
+        }
+
+        .view-users-modal-content .user-list p:hover .user-options {
+            display: block;
+        }
+
+        .view-users-modal-content .user-options button {
+            width: 100%;
+            padding: 10px 14px;
+            border: none;
+            cursor: pointer;
+            font-size: 0.85em;
+            text-align: left;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .view-users-modal-content .view-profile-btn {
+            background-color: var(--secondary);
+            color: white;
+        }
+
+        .view-users-modal-content .view-profile-btn:hover {
+            background-color: #2980b9;
+        }
+
+        .view-users-modal-content .kick-user-btn {
+            background-color: var(--danger);
+            color: white;
+        }
+
+        .view-users-modal-content .kick-user-btn:hover {
+            background-color: #c0392b;
+        }
+
+        .share-channel-modal-content .share-link {
+            padding: 14px;
+            border: 1px solid var(--gray-300);
+            border-radius: var(--border-radius);
+            font-size: 0.95em;
+            color: var(--gray-700);
+            background-color: var(--gray-100);
+            word-break: break-all;
+            font-family: monospace;
+        }
+
+        .upload-modal-content .file-details {
+            font-size: 0.9em;
+            color: var(--gray-600);
+            margin-top: 8px;
+            padding: 10px;
+            background-color: var(--gray-100);
+            border-radius: var(--border-radius);
+        }
+
+        .modal-buttons {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-top: 16px;
+        }
+
+        .modal-buttons button {
+            padding: 12px 20px;
+            border: none;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-size: 0.9em;
+            font-weight: 600;
+            min-height: 44px;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .modal-buttons .confirm-btn {
+            background-color: var(--success);
+            color: white;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .modal-buttons .confirm-btn:disabled {
+            background-color: var(--gray-400);
+            cursor: not-allowed;
+        }
+
+        .modal-buttons .confirm-btn:hover:not(:disabled) {
+            background-color: #27ae60;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .modal-buttons .cancel-btn {
+            background-color: var(--gray-300);
+            color: var(--gray-700);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .modal-buttons .cancel-btn:hover {
+            background-color: var(--gray-400);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        /* Spinner and Toast */
+        .spinner {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 50px;
+            height: 50px;
+            border: 4px solid var(--success);
+            border-top-color: transparent;
+            border-radius: 50%;
+            animation: spinCircle 1s linear infinite;
+            z-index: 2500;
+        }
+
+        @keyframes spinCircle {
+            from { transform: translate(-50%, -50%) rotate(0deg); }
+            to { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        .toast {
+            display: none;
+            position: fixed;
+            top: 90px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--success);
+            color: white;
+            padding: 14px 28px;
+            border-radius: 30px;
+            font-size: 0.95em;
+            font-weight: 600;
+            box-shadow: var(--shadow-lg);
+            z-index: 3000;
+            animation: toastSlideIn 0.3s ease-out, toastFadeOut 0.3s ease-in 1.7s forwards;
+        }
+
+        .toast.error {
+            background-color: var(--danger);
+        }
+
+        @keyframes toastSlideIn {
+            from { opacity: 0; transform: translateX(-50%) translateY(-20px); }
+            to { opacity: 1; transform: translateX(-50%) translateY(0); }
+        }
+
+        @keyframes toastFadeOut {
+            from { opacity: 1; transform: translateX(-50%) translateY(0); }
+            to { opacity: 0; transform: translateX(-50%) translateY(-20px); }
+        }
+
+        /* Responsive Design */
+        @media screen and (max-width: 1024px) {
+            .parent {
+                grid-template-columns: 240px 1fr;
+            }
+
+            .div1 {
+                padding: 0 20px;
+            }
+
+            .header-title {
+                font-size: 1.3em;
+            }
+
+            .channel-messages,
+            #globalMessages {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+                gap: 16px;
+            }
+        }
+
+        @media screen and (max-width: 768px) {
+            .parent {
+                grid-template-columns: 1fr;
+                grid-template-rows: auto 1fr;
+            }
+
+            .div1 {
+                flex-direction: row;
+                align-items: center;
+                padding: 12px 16px;
+                gap: 12px;
+                min-height: 60px;
+            }
+
+            .hamburger-menu {
+                display: block;
+            }
+
+            .header-left {
+                flex: 0;
+                justify-content: flex-start;
+            }
+
+            .header-title {
+                font-size: 1.4em;
+            }
+
+            .header-center {
+                flex: 1;
+                padding: 0;
+            }
+
+            .search-bar {
+                max-width: 100%;
+                font-size: 0.9em;
+            }
+
+            .header-right {
+                display: none;
+            }
+
+            .div2 {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 260px;
+                height: 100%;
+                transform: translateX(-100%);
+                transition: transform 0.3s ease-in-out; /* 👈 smooth animation */
+                border-right: none;
+                border-bottom: none;
+                padding: 16px;
+                gap: 16px;
+                max-height: 100vh;
+                z-index: 1100;
+                box-shadow: var(--shadow-lg);
+            }
+
+
+            .div2.show {
+                transform: translateX(0);
+            }
+
+            .close-sidebar {
+                display: block;
+            }
+
+            .sidebar-footer {
+                display: flex;
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .channel-actions {
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+
+            .channel-actions button {
+                width: 44px;
+                height: 44px;
+                font-size: 1.2em;
+            }
+
+            .channel-list {
+                max-height: calc(100vh - 240px);
+            }
+
+            .channel-item {
+                min-width: unset;
+                padding: 10px 14px;
+                font-size: 0.85em;
+                min-height: 40px;
+                border-radius: var(--border-radius);
+            }
+
+            .div3 {
+                grid-area: 2 / 1 / 3 / 1;
+                padding: 16px;
+            }
+
+            .default-content h2 {
+                font-size: 1.5em;
+            }
+
+            .default-content p {
+                font-size: 0.9em;
+            }
+
+            .channel-header h2 {
+                font-size: 1.4em;
+            }
+
+            .channel-header-buttons button {
+                padding: 8px 12px;
+                font-size: 0.85em;
+                min-height: 36px;
+            }
+
+            .channel-messages,
+            #globalMessages {
+                grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+                max-height: calc(100vh - 160px);
+                gap: 12px;
+            }
+
+            .document-item {
+                padding: 14px;
+                min-height: 170px;
+                max-height: 170px;
+            }
+
+            .preview-btn, .download-btn {
+                padding: 7px 12px;
+                font-size: 0.8em;
+                min-width: 70px;
+            }
+
+            .upload-modal-content,
+            .create-channel-modal-content,
+            .view-users-modal-content,
+            .join-channel-modal-content,
+            .view-profile-modal-content,
+            .share-channel-modal-content {
+                max-width: 90%;
+                padding: 20px;
+            }
+
+            .modal-buttons button {
+                padding: 10px 16px;
+                font-size: 0.85em;
+                min-height: 40px;
+            }
+
+            .spinner {
+                width: 40px;
+                height: 40px;
+            }
+
+            .toast {
+                top: 80px;
+                padding: 12px 24px;
+                font-size: 0.9em;
+                max-width: 90%;
+            }
+        }
+
+        @media screen and (max-width: 480px) {
+            .div1 {
+                padding: 10px 14px;
+            }
+
+            .header-title {
+                font-size: 1.2em;
+            }
+
+            .logo {
+                width: 36px;
+                height: 36px;
+            }
+
+            .search-bar {
+                font-size: 0.85em;
+                padding: 10px 14px;
+            }
+
+            .div2 {
+                width: 200px;
+                padding: 12px;
+            }
+
+            .channel-actions button {
+                width: 40px;
+                height: 40px;
+                font-size: 1.1em;
+            }
+
+            .channel-list {
+                max-height: calc(100vh - 220px);
+            }
+
+            .channel-item {
+                font-size: 0.8em;
+                padding: 8px 12px;
+            }
+
+            .sidebar-footer .upload-btn {
+                font-size: 0.75em;
+                padding: 8px 12px;
+                min-height: 36px;
+            }
+
+            .sidebar-footer .profile {
+                font-size: 0.8em;
+                height: 36px;
+            }
+
+            .sidebar-footer .profile-menu {
+                bottom: 40px;
+            }
+
+            .div3 {
+                padding: 12px;
+            }
+
+            .default-content h2 {
+                font-size: 1.3em;
+            }
+
+            .default-content p {
+                font-size: 0.85em;
+            }
+
+            .channel-header h2 {
+                font-size: 1.2em;
+            }
+
+            .channel-header-buttons {
+                flex-wrap: wrap;
+                justify-content: flex-end;
+            }
+
+            .channel-header-buttons button {
+                padding: 6px 10px;
+                font-size: 0.8em;
+                min-height: 32px;
+            }
+
+            .channel-messages,
+            #globalMessages {
+                grid-template-columns: 1fr;
+                max-height: calc(100vh - 140px);
+                gap: 10px;
+            }
+
+            .document-item {
+                padding: 12px;
+                min-height: 160px;
+                max-height: 160px;
+            }
+
+            .preview-btn, .download-btn {
+                padding: 6px 10px;
+                font-size: 0.75em;
+                min-width: 65px;
+            }
+
+            .upload-modal-content,
+            .create-channel-modal-content,
+            .view-users-modal-content,
+            .join-channel-modal-content,
+            .view-profile-modal-content,
+            .share-channel-modal-content {
+                max-width: 95%;
+                padding: 18px;
+            }
+
+            .toast {
+                top: 70px;
+                font-size: 0.85em;
+                padding: 10px 20px;
+            }
+            /* Remove blue highlight on mobile (buttons, logo, profile, links) */
+            button, 
+            .upload-btn, 
+            .preview-btn, 
+            .download-btn, 
+            .channel-item, 
+            .profile, 
+            .hamburger-menu, 
+            .close-sidebar,
+            .logo, 
+            a, 
+            a.uploaded-by {
+                -webkit-tap-highlight-color: transparent; /* removes mobile highlight */
+                outline: none;
+                -webkit-focus-ring-color: transparent; /* removes blue glow on focus */
+            }
+
+            /* Prevent blue/gray flash on tap */
+            button:focus, button:active,
+            a:focus, a:active,
+            .logo:focus, .logo:active,
+            .profile:focus, .profile:active {
+                outline: none;
+                background-color: inherit !important; /* keep original look */
+            }
+            /* Document card container */
+.card {
+    padding: 16px;              /* give breathing space inside */
+    border-radius: 12px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    margin-bottom: 16px;        /* space between cards */
+    background: #fff;
+}
+
+/* Ensure buttons don’t stick to bottom */
+.card .preview-btn,
+.card .download-btn {
+    margin-top: 10px;
+    margin-bottom: 6px;         /* 👈 space below button */
+}
+
+
+
+        }
+    </style>
+</head>
+<body>
+    <div class="parent">
+        <div class="div1">
+            <div class="header-left">
+                <span class="hamburger-menu" id="hamburgerMenu">☰</span>
+                <img src="logo1.png" class="logo" id="logo" alt="NANDHA NOTES Logo" onerror="this.src='https://via.placeholder.com/36';">
+                <div class="header-title">NANDHA NOTES</div>
+            </div>
+            <div class="header-center">
+                <div class="search-container">
+                    <input type="text" class="search-bar" id="searchBar" placeholder="Search notes...">
+                    <span class="clear-search" id="clearSearch">×</span>
+                </div>
+            </div>
+            <div class="header-right">
+                <button class="upload-btn" id="uploadBtn">Upload Notes</button>
+                <div class="profile" id="profileIcon">👤
+                    <div class="profile-menu" id="profileMenu">
+                        <p><strong>Username:</strong> <span id="profileUsername">Loading...</span></p>
+                        <p><strong>Email:</strong> <span id="profileEmail">Loading...</span></p>
+                        <p><strong>Credits:</strong> <span id="profileCredits">Loading...</span></p>
+                        <p><strong>Uploads:</strong> <span id="profileUploadCount">Loading...</span></p>
+                        <button id="logoutBtn">Logout</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="div2" id="sidebar">
+            <span class="close-sidebar" id="closeSidebar">×</span>
+            <div class="channel-actions">
+                <button id="createChannelBtn" title="Create Channel">➕</button>
+                <button id="joinChannelBtn" title="Join Channel">🤝</button>
+            </div>
+            <div class="channel-list" id="channelList"></div>
+            <div class="sidebar-footer">
+                <button class="upload-btn" id="mobileUploadBtn">Upload Notes</button>
+                <div class="profile" id="mobileProfileIcon">👤 Profile
+                    <div class="profile-menu" id="mobileProfileMenu">
+                        <p><strong>Username:</strong> <span id="mobileProfileUsername">Loading...</span></p>
+                        <p><strong>Email:</strong> <span id="mobileProfileEmail">Loading...</span></p>
+                        <p><strong>Credits:</strong> <span id="mobileProfileCredits">Loading...</span></p>
+                        <p><strong>Uploads:</strong> <span id="mobileProfileUploadCount">Loading...</span></p>
+                        <button id="mobileLogoutBtn">Logout</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="div3">
+            <div class="default-content" id="defaultContent">
+                <h2>Welcome to NANDHA NOTES</h2>
+                <div id="globalMessages" class="channel-messages"></div>
+            </div>
+            <div class="channel-content" id="channelContent">
+                <div class="channel-header">
+                    <h2 id="channelName"></h2>
+                    <div class="channel-header-buttons">
+                        <button class="home-btn" id="homeBtn" title="Back to Home">🏠</button>
+                        <button class="view-users-btn" id="viewUsersBtn">👥</button>
+                        <button class="share-btn" id="shareChannelBtn">🔗</button>
+                    </div>
+                </div>
+                <div class="channel-messages" id="channelMessages">
+                    <p>No documents available. Start by uploading notes!</p>
+                </div>
+                <div class="channel-footer">
+                    <button class="upload-btn" id="channelUploadBtn">Upload Notes</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="upload-modal" id="uploadModal">
+            <div class="upload-modal-content">
+                <h3>Upload Notes</h3>
+                <input type="file" id="fileInput" accept="image/jpeg,image/png,image/gif,application/pdf,.ppt,.pptx">
+                <p class="error-message" id="fileError">Please select an image, PDF, or PPT/PPTX file</p>
+                <select id="regulationInput">
+                    <option value="R22" selected>R22</option>
+                    <option value="R21">R21</option>
+                    <option value="R20">R20</option>
+                    <option value="R19">R19</option>
+                </select>
+                <select id="yearInput">
+                    <option value="" disabled selected>Select the year</option>
+                    <option value="I">I</option>
+                    <option value="II">II</option>
+                    <option value="III">III</option>
+                    <option value="IV">IV</option>
+                </select>
+                <p class="error-message" id="yearError">Please select a year</p>
+                <input type="text" id="topicInput" placeholder="Topic">
+                <p class="error-message" id="topicError">Topic is required</p>
+                <input type="text" id="subjectInput" placeholder="Subject">
+                <p class="error-message" id="subjectError">Subject is required</p>
+                <input type="text" id="subjectCodeInput" placeholder="Subject Code">
+                <p class="error-message" id="subjectCodeError">Subject Code is required</p>
+                <textarea id="descriptionInput" placeholder="Description (optional)"></textarea>
+                <p class="file-details" id="fileDetails">No file selected</p>
+                <div class="modal-buttons">
+                    <button class="cancel-btn" id="cancelUpload">Cancel</button>
+                    <button class="confirm-btn" id="confirmUpload" disabled>Upload</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="create-channel-modal" id="createChannelModal">
+            <div class="create-channel-modal-content">
+                <h3>Create Channel</h3>
+                <input type="text" id="channelNameInput" placeholder="Enter channel name">
+                <p class="error-message" id="channelNameError">Channel name is required</p>
+                <div class="modal-buttons">
+                    <button class="cancel-btn" id="cancelChannel">Cancel</button>
+                    <button class="confirm-btn" id="confirmChannel">Create</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="view-users-modal" id="viewUsersModal">
+            <div class="view-users-modal-content">
+                <h3>Channel Users</h3>
+                <div class="user-list" id="userList"></div>
+                <div class="modal-buttons">
+                    <button class="cancel-btn" id="closeViewUsers">Close</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="join-channel-modal" id="joinChannelModal">
+            <div class="join-channel-modal-content">
+                <h3>Join Channel</h3>
+                <input type="text" id="channelCodeInput" placeholder="Enter 10-digit channel code">
+                <p class="error-message" id="channelCodeError">Please enter a valid 10-digit code</p>
+                <div class="modal-buttons">
+                    <button class="cancel-btn" id="cancelJoinChannel">Cancel</button>
+                    <button class="confirm-btn" id="confirmJoinChannel">Join</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="view-profile-modal" id="viewProfileModal">
+            <div class="view-profile-modal-content">
+                <h3>User Profile</h3>
+                <p><strong>Username:</strong> <span id="profileViewUsername">Loading...</span></p>
+                <p><strong>Email:</strong> <span id="profileViewEmail">Loading...</span></p>
+                <p><strong>Credits:</strong> <span id="profileViewCredits">Loading...</span></p>
+                <p><strong>Uploads:</strong> <span id="profileViewUploadCount">Loading...</span></p>
+                <div class="modal-buttons">
+                    <button class="cancel-btn" id="closeProfileView">Close</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="share-channel-modal" id="shareChannelModal">
+            <div class="share-channel-modal-content">
+                <h3>Share Channel</h3>
+                <p class="share-link" id="shareLink"></p>
+                <div class="modal-buttons">
+                    <button class="confirm-btn" id="copyShareLinkBtn">Copy Code</button>
+                    <button class="cancel-btn" id="cancelShareChannel">Close</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="spinner" id="spinner"></div>
+        <div class="toast" id="toastMessage"></div>
+    </div>
+
+    <script>
+        // Utility function to show toast notifications
+        function showToast(message, isError = false) {
+            const toast = document.getElementById("toastMessage");
+            toast.textContent = message;
+            toast.className = `toast ${isError ? 'error' : ''}`;
+            toast.style.display = "block";
+            setTimeout(() => {
+                toast.style.display = "none";
+            }, 2000);
+        }
+
+        // Navigate to home on logo click
+        document.getElementById("logo").addEventListener("click", function() {
+            location.reload();
+        });
+
+        // Sidebar toggle for mobile
+        const hamburgerMenu = document.getElementById("hamburgerMenu");
+        const closeSidebar = document.getElementById("closeSidebar");
+        const sidebar = document.getElementById("sidebar");
+
+        hamburgerMenu.addEventListener("click", function() {
+            sidebar.classList.add("show");
+        });
+
+        closeSidebar.addEventListener("click", function() {
+            sidebar.classList.remove("show");
+        });
+
+        // Close sidebar when clicking outside
+        document.addEventListener("click", function(e) {
+            if (sidebar.classList.contains("show") && !sidebar.contains(e.target) && !hamburgerMenu.contains(e.target)) {
+                sidebar.classList.remove("show");
+            }
+        });
+
+        // Check if user is logged in
+        async function checkLogin() {
+            const token = sessionStorage.getItem("token");
+            if (sessionStorage.getItem("isLoggedIn") !== "true" || !token) {
+                window.location.href = "login.html";
+                return false;
+            }
+            try {
+                const response = await fetch("http://localhost:3000/profile", {
+                    headers: { Authorization: `Bearer ${token}` }
+                });
+                const data = await response.json();
+                if (data.error) {
+                    showToast(data.error, true);
+                    sessionStorage.clear();
+                    window.location.href = "login.html";
+                    return false;
+                }
+                document.getElementById("profileUsername").textContent = data.username || "Unknown";
+                document.getElementById("profileEmail").textContent = data.email || "Unknown";
+                document.getElementById("profileCredits").textContent = data.credits || "0";
+                document.getElementById("profileUploadCount").textContent = data.uploadCount || "0";
+                document.getElementById("mobileProfileUsername").textContent = data.username || "Unknown";
+                document.getElementById("mobileProfileEmail").textContent = data.email || "Unknown";
+                document.getElementById("mobileProfileCredits").textContent = data.credits || "0";
+                document.getElementById("mobileProfileUploadCount").textContent = data.uploadCount || "0";
+                sessionStorage.setItem("username", data.username || "");
+                sessionStorage.setItem("userEmail", data.email || "");
+                return true;
+            } catch (err) {
+                console.error("Check login error:", err);
+                showToast("Error fetching profile: " + err.message, true);
+                sessionStorage.clear();
+                window.location.href = "login.html";
+                return false;
+            }
+        }
+
+        // Toggle profile menu
+        document.getElementById("profileIcon").addEventListener("click", function(e) {
+            e.stopPropagation();
+            if (!checkLogin()) return;
+            const menu = document.getElementById("profileMenu");
+            menu.style.display = menu.style.display === "block" ? "none" : "block";
+        });
+
+        document.getElementById("mobileProfileIcon").addEventListener("click", function(e) {
+            e.stopPropagation();
+            if (!checkLogin()) return;
+            const menu = document.getElementById("mobileProfileMenu");
+            menu.style.display = menu.style.display === "block" ? "none" : "block";
+        });
+
+        window.addEventListener("click", function(e) {
+            if (!document.getElementById("profileIcon").contains(e.target) && !document.getElementById("mobileProfileIcon").contains(e.target)) {
+                document.getElementById("profileMenu").style.display = "none";
+                document.getElementById("mobileProfileMenu").style.display = "none";
+            }
+        });
+
+        // Logout
+        document.getElementById("logoutBtn").addEventListener("click", function() {
+            sessionStorage.clear();
+            try {
+                window.location.href = "login.html";
+            } catch (e) {
+                showToast("Error navigating to login page.", true);
+            }
+        });
+
+        document.getElementById("mobileLogoutBtn").addEventListener("click", function() {
+            sessionStorage.clear();
+            try {
+                window.location.href = "login.html";
+            } catch (e) {
+                showToast("Error navigating to login page.", true);
+            }
+        });
+
+        // Preview file by opening in a new tab with iframe for PPT/PPTX or direct for others
+        async function previewFile(docId, filename) {
+            const isPPT = filename && (filename.toLowerCase().endsWith('.ppt') || filename.toLowerCase().endsWith('.pptx'));
+            const fileUrl = `http://localhost:3000/api/file/${docId}?download=false`;
+
+            if (isPPT) {
+                const newTab = window.open("", "_blank");
+                if (newTab) {
+                    newTab.document.write(`
+                        <!DOCTYPE html>
+                        <html>
+                        <head>
+                            <title>Preview ${filename}</title>
+                            <style>
+                                body { margin: 0; padding: 0; overflow: hidden; }
+                                iframe { width: 100%; height: 100vh; border: none; }
+                                .error { text-align: center; color: #e74c3c; font-family: Arial, sans-serif; padding: 20px; }
+                            </style>
+                        </head>
+                        <body>
+                            <iframe 
+                                src="${fileUrl}" 
+                                onload="if(this.contentDocument.body.innerHTML.includes('error') || !this.contentWindow.document.body.children.length) {
+                                    this.contentWindow.document.body.innerHTML = '<p class=\"error\">Preview not supported. Please install a PPT viewer extension or download the file.</p>';
+                                }" 
+                                onerror="this.contentWindow.document.body.innerHTML = '<p class=\"error\">Failed to load preview. Please try downloading the file.</p>';"
+                            ></iframe>
+                        </body>
+                        </html>
+                    `);
+                    newTab.document.close();
+                } else {
+                    showToast("Unable to open new tab. Please allow pop-ups.", true);
+                }
+            } else {
+                window.open(fileUrl, "_blank");
+            }
+        }
+
+        // Download via backend
+        function downloadFile(docId, filename) {
+            const link = document.createElement("a");
+            link.href = `http://localhost:3000/api/file/${docId}?download=true`;
+            link.download = filename || "nandha-notes-file";
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        // Upload modal elements
+        const uploadBtn = document.getElementById("uploadBtn");
+        const channelUploadBtn = document.getElementById("channelUploadBtn");
+        const mobileUploadBtn = document.getElementById("mobileUploadBtn");
+        const uploadModal = document.getElementById("uploadModal");
+        const cancelUpload = document.getElementById("cancelUpload");
+        const confirmUpload = document.getElementById("confirmUpload");
+        const fileInput = document.getElementById("fileInput");
+        const yearInput = document.getElementById("yearInput");
+        const regulationInput = document.getElementById("regulationInput");
+        const topicInput = document.getElementById("topicInput");
+        const subjectInput = document.getElementById("subjectInput");
+        const subjectCodeInput = document.getElementById("subjectCodeInput");
+        const descriptionInput = document.getElementById("descriptionInput");
+        const fileDetails = document.getElementById("fileDetails");
+        const fileError = document.getElementById("fileError");
+        const yearError = document.getElementById("yearError");
+        const topicError = document.getElementById("topicError");
+        const subjectError = document.getElementById("subjectError");
+        const subjectCodeError = document.getElementById("subjectCodeError");
+        const spinner = document.getElementById("spinner");
+
+        // Reset upload form
+        function resetUploadForm() {
+            uploadModal.style.display = "none";
+            fileInput.value = "";
+            yearInput.value = "";
+            regulationInput.value = "R22";
+            topicInput.value = "";
+            subjectInput.value = "";
+            subjectCodeInput.value = "";
+            descriptionInput.value = "";
+            fileError.style.display = "none";
+            yearError.style.display = "none";
+            topicError.style.display = "none";
+            subjectError.style.display = "none";
+            subjectCodeError.style.display = "none";
+            fileDetails.textContent = "No file selected";
+            confirmUpload.disabled = true;
+        }
+
+        // Validate upload inputs
+        function validateInputs() {
+            const hasFile = fileInput.files.length > 0;
+            const hasYear = yearInput.value !== "";
+            const hasTopic = topicInput.value.trim() !== "";
+            const hasSubject = subjectInput.value.trim() !== "";
+            const hasSubjectCode = subjectCodeInput.value.trim() !== "";
+            confirmUpload.disabled = !(hasFile && hasYear && hasTopic && hasSubject && hasSubjectCode);
+
+            if (hasFile && hasYear && hasTopic && hasSubject && hasSubjectCode) {
+                let details = `File: ${fileInput.files[0].name}, Regulation: ${regulationInput.value}, Year: ${yearInput.value}, Topic: ${topicInput.value}, Subject: ${subjectInput.value}, Subject Code: ${subjectCodeInput.value}`;
+                if (descriptionInput.value.trim()) {
+                    details += `, Description: ${descriptionInput.value}`;
+                }
+                fileDetails.textContent = details;
+            } else {
+                fileDetails.textContent = "No file selected";
+            }
+        }
+
+        // Upload modal event listeners
+        uploadBtn.addEventListener("click", function() {
+            if (!checkLogin()) return;
+            uploadModal.style.display = "flex";
+            sidebar.classList.remove("show");
+        });
+
+        channelUploadBtn.addEventListener("click", function() {
+            if (!checkLogin()) return;
+            uploadModal.style.display = "flex";
+            sidebar.classList.remove("show");
+        });
+
+        mobileUploadBtn.addEventListener("click", function() {
+            if (!checkLogin()) return;
+            uploadModal.style.display = "flex";
+            sidebar.classList.remove("show");
+        });
+
+        cancelUpload.addEventListener("click", resetUploadForm);
+
+        fileInput.addEventListener("change", validateInputs);
+        yearInput.addEventListener("change", validateInputs);
+        regulationInput.addEventListener("change", validateInputs);
+        topicInput.addEventListener("input", validateInputs);
+        subjectInput.addEventListener("input", validateInputs);
+        subjectCodeInput.addEventListener("input", validateInputs);
+        descriptionInput.addEventListener("input", validateInputs);
+
+        // Handle file upload
+        confirmUpload.addEventListener("click", async function() {
+            if (!checkLogin()) return;
+            let valid = true;
+
+            fileError.style.display = "none";
+            yearError.style.display = "none";
+            topicError.style.display = "none";
+            subjectError.style.display = "none";
+            subjectCodeError.style.display = "none";
+
+            if (fileInput.files.length === 0) {
+                fileError.style.display = "block";
+                valid = false;
+            } else {
+                const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'application/pdf', 'application/vnd.ms-powerpoint', 'application/vnd.openxmlformats-officedocument.presentationml.presentation'];
+                if (!allowedTypes.includes(fileInput.files[0].type)) {
+                    fileError.textContent = 'Only images (JPEG, PNG, GIF), PDFs, or PPT/PPTX files are allowed';
+                    fileError.style.display = "block";
+                    valid = false;
+                }
+            }
+            if (yearInput.value === "") {
+                yearError.style.display = "block";
+                valid = false;
+            }
+            if (!topicInput.value.trim()) {
+                topicError.style.display = "block";
+                valid = false;
+            }
+            if (!subjectInput.value.trim()) {
+                subjectError.style.display = "block";
+                valid = false;
+            }
+            if (!subjectCodeInput.value.trim()) {
+                subjectCodeError.style.display = "block";
+                valid = false;
+            }
+
+            if (valid) {
+                const formData = new FormData();
+                formData.append('file', fileInput.files[0]);
+                formData.append('regulation', regulationInput.value);
+                formData.append('year', yearInput.value);
+                formData.append('topic', topicInput.value);
+                formData.append('subject', subjectInput.value);
+                formData.append('subjectCode', subjectCodeInput.value);
+                formData.append('description', descriptionInput.value);
+                if (currentChannelId) {
+                    formData.append('channelId', currentChannelId);
+                }
+
+                try {
+                    spinner.style.display = "block";
+                    const token = sessionStorage.getItem("token");
+                    const response = await fetch('http://localhost:3000/api/upload', {
+                        method: 'POST',
+                        headers: { Authorization: `Bearer ${token}` },
+                        body: formData
+                    });
+                    const data = await response.json();
+                    spinner.style.display = "none";
+                    if (data.error) {
+                        showToast(data.error, true);
+                        return;
+                    }
+                    showToast(`File uploaded successfully! Credits: ${data.credits || 0}`);
+                    resetUploadForm();
+                    const profileResponse = await fetch("http://localhost:3000/profile", {
+                        headers: { Authorization: `Bearer ${token}` }
+                    });
+                    const profileData = await profileResponse.json();
+                    if (!profileData.error) {
+                        document.getElementById("profileCredits").textContent = profileData.credits || "0";
+                        document.getElementById("profileUploadCount").textContent = profileData.uploadCount || "0";
+                        document.getElementById("mobileProfileCredits").textContent = profileData.credits || "0";
+                        document.getElementById("mobileProfileUploadCount").textContent = profileData.uploadCount || "0";
+                    }
+                    if (currentChannelId) {
+                        fetchDocuments(currentChannelId);
+                    } else {
+                        fetchGlobalNotes();
+                    }
+                } catch (err) {
+                    spinner.style.display = "none";
+                    console.error("Upload error:", err);
+                    showToast("Error uploading file: " + err.message, true);
+                }
+            }
+        });
+
+        uploadModal.addEventListener("click", function(e) {
+            if (e.target === uploadModal) {
+                resetUploadForm();
+            }
+        });
+
+        // Channel elements
+        const createChannelBtn = document.getElementById("createChannelBtn");
+        const createChannelModal = document.getElementById("createChannelModal");
+        const cancelChannel = document.getElementById("cancelChannel");
+        const confirmChannel = document.getElementById("confirmChannel");
+        const channelNameInput = document.getElementById("channelNameInput");
+        const channelNameError = document.getElementById("channelNameError");
+        const channelList = document.getElementById("channelList");
+        let currentChannelId = null;
+        let isAdmin = false;
+
+        // Fetch and render channels
+        async function fetchChannels() {
+            try {
+                const token = sessionStorage.getItem("token");
+                if (!token) {
+                    showToast("No authentication token found.", true);
+                    return;
+                }
+                const response = await fetch("http://localhost:3000/api/channels", {
+                    headers: { Authorization: `Bearer ${token}` }
+                });
+                const data = await response.json();
+                if (data.error) {
+                    showToast(data.error, true);
+                    return;
+                }
+                renderChannels(data.channels || []);
+            } catch (err) {
+                console.error("Fetch channels error:", err);
+                showToast("Error fetching channels: " + err.message, true);
+            }
+        }
+
+        function renderChannels(channels) {
+            channelList.innerHTML = "";
+            if (channels.length === 0) {
+                channelList.innerHTML = "<p>No channels available.</p>";
+                return;
+            }
+            channels.forEach(channel => {
+                const channelItem = document.createElement("button");
+                channelItem.className = "channel-item";
+                channelItem.textContent = channel.name || "Unnamed Channel";
+                channelItem.addEventListener("click", () => {
+                    selectChannel(channel._id, channel.name);
+                    sidebar.classList.remove("show");
+                });
+                channelList.appendChild(channelItem);
+            });
+        }
+
+        // Select a channel and fetch its documents
+        async function selectChannel(channelId, channelName) {
+            if (!channelId) {
+                showToast("Invalid channel selected.", true);
+                return;
+            }
+            currentChannelId = channelId;
+            document.getElementById("defaultContent").style.display = "none";
+            document.getElementById("channelContent").style.display = "flex";
+            document.getElementById("channelName").textContent = channelName || "Unnamed Channel";
+
+            try {
+                const token = sessionStorage.getItem("token");
+                const response = await fetch(`http://localhost:3000/api/channels/${channelId}/users`, {
+                    headers: { Authorization: `Bearer ${token}` }
+                });
+                const data = await response.json();
+                if (data.error) {
+                    showToast(data.error, true);
+                    return;
+                }
+                const currentUser = data.users?.find(user => user.email === sessionStorage.getItem("userEmail"));
+                isAdmin = currentUser && currentUser.isAdmin || false;
+                fetchDocuments(channelId);
+            } catch (err) {
+                console.error("Check admin status error:", err);
+                showToast("Error checking admin status: " + err.message, true);
+            }
+        }
+
+        // Fetch and render channel documents
+        async function fetchDocuments(channelId) {
+            const token = sessionStorage.getItem("token");
+            try {
+                const response = await fetch(`http://localhost:3000/api/channels/${channelId}/documents`, {
+                    headers: { Authorization: `Bearer ${token}` }
+                });
+                const data = await response.json();
+
+                const container = document.getElementById("channelMessages");
+                container.innerHTML = "";
+
+                if (data.documents && data.documents.length > 0) {
+                    data.documents.forEach(doc => {
+                        const docElement = renderDocument(doc);
+                        container.appendChild(docElement);
+                    });
+                } else {
+                    container.innerHTML = "<p>No documents available in this channel.</p>";
+                }
+            } catch (err) {
+                console.error("Error fetching channel documents:", err);
+                showToast("Error fetching documents: " + err.message, true);
+            }
+        }
+
+        // Fetch global notes
+        async function fetchGlobalNotes() {
+            const token = sessionStorage.getItem("token");
+            try {
+                const response = await fetch("http://localhost:3000/api/notes", {
+                    headers: { Authorization: `Bearer ${token}` }
+                });
+                const data = await response.json();
+
+                const container = document.getElementById("globalMessages");
+                container.innerHTML = "";
+
+                if (data.documents && data.documents.length > 0) {
+                    data.documents.forEach(doc => {
+                        const docElement = renderDocument(doc);
+                        container.appendChild(docElement);
+                    });
+                } else {
+                    container.innerHTML = "<p>No documents available. Start by uploading notes!</p>";
+                }
+            } catch (err) {
+                console.error("Error fetching global notes:", err);
+                showToast("Error fetching global notes: " + err.message, true);
+            }
+        }
+
+        // Render a document card with preview & download
+        function renderDocument(doc) {
+            const docItem = document.createElement("div");
+            docItem.classList.add("document-item");
+
+            const details = document.createElement("div");
+            details.classList.add("document-details");
+            details.innerHTML = `
+                <p><strong>Topic:</strong> ${doc.topic}</p>
+                <p><strong>Subject:</strong> ${doc.subject} (${doc.subjectCode})</p>
+                <p><strong>Regulation:</strong> ${doc.regulation}</p>
+                <p><strong>Uploaded by:</strong> 
+                    <a href="#" class="uploaded-by" data-user-id="${doc.userId}">
+                        ${doc.username || "Unknown"}
+                    </a>
+                </p>
+            `;
+
+            const actions = document.createElement("div");
+            actions.classList.add("document-actions");
+
+            const isPPT = doc.originalName.toLowerCase().endsWith('.ppt') || doc.originalName.toLowerCase().endsWith('.pptx');
+
+            if (!isPPT) {
+                const previewBtn = document.createElement("button");
+                previewBtn.classList.add("preview-btn");
+                previewBtn.textContent = "Preview";
+                previewBtn.addEventListener("click", () => previewFile(doc._id, doc.originalName));
+                actions.appendChild(previewBtn);
+            }
+
+            const downloadBtn = document.createElement("button");
+            downloadBtn.classList.add("download-btn");
+            downloadBtn.textContent = "Download";
+            downloadBtn.addEventListener("click", () => downloadFile(doc._id, doc.originalName));
+            actions.appendChild(downloadBtn);
+
+            docItem.appendChild(details);
+            docItem.appendChild(actions);
+
+            // Add click event for the "Uploaded by" link
+            const uploadedByLink = details.querySelector(".uploaded-by");
+            if (uploadedByLink) {
+                uploadedByLink.addEventListener("click", (e) => {
+                    e.preventDefault();
+                    const userId = uploadedByLink.getAttribute("data-user-id");
+                    if (userId) {
+                        viewUserProfile(userId);
+                    }
+                });
+            }
+
+            return docItem;
+        }
+
+        // Create channel
+        createChannelBtn.addEventListener("click", function() {
+            if (!checkLogin()) return;
+            createChannelModal.style.display = "flex";
+            sidebar.classList.remove("show");
+        });
+
+        cancelChannel.addEventListener("click", function() {
+            createChannelModal.style.display = "none";
+            channelNameInput.value = "";
+            channelNameError.style.display = "none";
+        });
+
+        confirmChannel.addEventListener("click", async function() {
+            if (!checkLogin()) return;
+            const name = channelNameInput.value.trim();
+            if (!name) {
+                channelNameError.style.display = "block";
+                return;
+            }
+            try {
+                spinner.style.display = "block";
+                const token = sessionStorage.getItem("token");
+                const response = await fetch("http://localhost:3000/api/channels/create", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${token}`
+                    },
+                    body: JSON.stringify({ name })
+                });
+                const data = await response.json();
+                spinner.style.display = "none";
+                if (data.error) {
+                    showToast(data.error, true);
+                    return;
+                }
+                showToast("Channel created successfully!");
+                createChannelModal.style.display = "none";
+                channelNameInput.value = "";
+                channelNameError.style.display = "none";
+                fetchChannels();
+            } catch (err) {
+                spinner.style.display = "none";
+                console.error("Create channel error:", err);
+                showToast("Error creating channel: " + err.message, true);
+            }
+        });
+
+        createChannelModal.addEventListener("click", function(e) {
+            if (e.target === createChannelModal) {
+                createChannelModal.style.display = "none";
+                channelNameInput.value = "";
+                channelNameError.style.display = "none";
+            }
+        });
+
+        // Join channel
+        const joinChannelBtn = document.getElementById("joinChannelBtn");
+        const joinChannelModal = document.getElementById("joinChannelModal");
+        const cancelJoinChannel = document.getElementById("cancelJoinChannel");
+        const confirmJoinChannel = document.getElementById("confirmJoinChannel");
+        const channelCodeInput = document.getElementById("channelCodeInput");
+        const channelCodeError = document.getElementById("channelCodeError");
+
+        joinChannelBtn.addEventListener("click", function() {
+            if (!checkLogin()) return;
+            joinChannelModal.style.display = "flex";
+            sidebar.classList.remove("show");
+        });
+
+        cancelJoinChannel.addEventListener("click", function() {
+            joinChannelModal.style.display = "none";
+            channelCodeInput.value = "";
+            channelCodeError.style.display = "none";
+        });
+
+        confirmJoinChannel.addEventListener("click", async function() {
+            if (!checkLogin()) return;
+            const code = channelCodeInput.value.trim();
+            if (code.length !== 10) {
+                channelCodeError.style.display = "block";
+                return;
+            }
+            try {
+                spinner.style.display = "block";
+                const token = sessionStorage.getItem("token");
+                const response = await fetch("http://localhost:3000/api/channels/join", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${token}`
+                    },
+                    body: JSON.stringify({ code })
+                });
+                const data = await response.json();
+                spinner.style.display = "none";
+                if (data.error) {
+                    showToast(data.error, true);
+                    return;
+                }
+                showToast("Joined channel successfully!");
+                joinChannelModal.style.display = "none";
+                channelCodeInput.value = "";
+                channelCodeError.style.display = "none";
+                fetchChannels();
+            } catch (err) {
+                spinner.style.display = "none";
+                console.error("Join channel error:", err);
+                showToast("Error joining channel: " + err.message, true);
+            }
+        });
+
+        joinChannelModal.addEventListener("click", function(e) {
+            if (e.target === joinChannelModal) {
+                joinChannelModal.style.display = "none";
+                channelCodeInput.value = "";
+                channelCodeError.style.display = "none";
+            }
+        });
+
+        // View channel users
+        const viewUsersBtn = document.getElementById("viewUsersBtn");
+        const viewUsersModal = document.getElementById("viewUsersModal");
+        const closeViewUsers = document.getElementById("closeViewUsers");
+        const userList = document.getElementById("userList");
+
+        viewUsersBtn.addEventListener("click", async function() {
+            if (!checkLogin()) return;
+            try {
+                spinner.style.display = "block";
+                const token = sessionStorage.getItem("token");
+                const response = await fetch(`http://localhost:3000/api/channels/${currentChannelId}/users`, {
+                    headers: { Authorization: `Bearer ${token}` }
+                });
+                const data = await response.json();
+                spinner.style.display = "none";
+                if (data.error) {
+                    showToast(data.error, true);
+                    return;
+                }
+                renderUsers(data.users || []);
+                viewUsersModal.style.display = "flex";
+                sidebar.classList.remove("show");
+            } catch (err) {
+                spinner.style.display = "none";
+                console.error("Fetch users error:", err);
+                showToast("Error fetching users: " + err.message, true);
+            }
+        });
+
+        function renderUsers(users) {
+            userList.innerHTML = "";
+            if (users.length === 0) {
+                userList.innerHTML = "<p>No users in this channel.</p>";
+                return;
+            }
+            users.forEach(user => {
+                const userItem = document.createElement("p");
+                userItem.innerHTML = `
+                    ${user.username || user.email} ${user.isAdmin ? '<span class="admin-tag">Admin</span>' : ''}
+                    <div class="user-options">
+                        <button class="view-profile-btn" data-user-id="${user._id}">View Profile</button>
+                        ${isAdmin && !user.isAdmin ? `<button class="kick-user-btn" data-user-id="${user._id}">Kick</button>` : ''}
+                    </div>
+                `;
+                userItem.querySelector(".view-profile-btn")?.addEventListener("click", () => viewUserProfile(user._id));
+                userItem.querySelector(".kick-user-btn")?.addEventListener("click", () => kickUser(user._id));
+                userList.appendChild(userItem);
+            });
+        }
+
+        closeViewUsers.addEventListener("click", function() {
+            viewUsersModal.style.display = "none";
+        });
+
+        viewUsersModal.addEventListener("click", function(e) {
+            if (e.target === viewUsersModal) {
+                viewUsersModal.style.display = "none";
+            }
+        });
+
+        // View user profile
+        const viewProfileModal = document.getElementById("viewProfileModal");
+        const closeProfileView = document.getElementById("closeProfileView");
+
+        async function viewUserProfile(userId) {
+            try {
+                spinner.style.display = "block";
+                const token = sessionStorage.getItem("token");
+                const response = await fetch(`http://localhost:3000/api/users/${userId}/profile`, {
+                    headers: { Authorization: `Bearer ${token}` }
+                });
+                const data = await response.json();
+                spinner.style.display = "none";
+                if (data.error) {
+                    showToast(data.error, true);
+                    return;
+                }
+                document.getElementById("profileViewUsername").textContent = data.username || "Unknown";
+                document.getElementById("profileViewEmail").textContent = data.email || "Unknown";
+                document.getElementById("profileViewCredits").textContent = data.credits || "0";
+                document.getElementById("profileViewUploadCount").textContent = data.uploadCount || "0";
+                viewProfileModal.style.display = "flex";
+            } catch (err) {
+                spinner.style.display = "none";
+                console.error("View profile error:", err);
+                showToast("Error fetching user profile: " + err.message, true);
+            }
+        }
+
+        closeProfileView.addEventListener("click", function() {
+            viewProfileModal.style.display = "none";
+        });
+
+        viewProfileModal.addEventListener("click", function(e) {
+            if (e.target === viewProfileModal) {
+                viewProfileModal.style.display = "none";
+            }
+        });
+
+        // Kick user from channel
+        async function kickUser(userId) {
+            if (!checkLogin() || !isAdmin) {
+                showToast("Only admins can kick users.", true);
+                return;
+            }
+            try {
+                spinner.style.display = "block";
+                const token = sessionStorage.getItem("token");
+                const response = await fetch(`http://localhost:3000/api/channels/${currentChannelId}/kick-user`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${token}`
+                    },
+                    body: JSON.stringify({ userId })
+                });
+                const data = await response.json();
+                spinner.style.display = "none";
+                if (data.error) {
+                    showToast(data.error, true);
+                    return;
+                }
+                showToast("User kicked successfully!");
+                viewUsersModal.style.display = "none";
+                viewUsersBtn.click();
+            } catch (err) {
+                spinner.style.display = "none";
+                console.error("Kick user error:", err);
+                showToast("Error kicking user: " + err.message, true);
+            }
+        }
+
+        // Share channel
+        const shareChannelBtn = document.getElementById("shareChannelBtn");
+        const shareChannelModal = document.getElementById("shareChannelModal");
+        const copyShareLinkBtn = document.getElementById("copyShareLinkBtn");
+        const cancelShareChannel = document.getElementById("cancelShareChannel");
+        const shareLink = document.getElementById("shareLink");
+
+        shareChannelBtn.addEventListener("click", async function() {
+            if (!checkLogin()) return;
+            try {
+                spinner.style.display = "block";
+                const token = sessionStorage.getItem("token");
+                const response = await fetch(`http://localhost:3000/api/channels/${currentChannelId}/share`, {
+                    headers: { Authorization: `Bearer ${token}` }
+                });
+                const data = await response.json();
+                spinner.style.display = "none";
+                if (data.error) {
+                    showToast(data.error, true);
+                    return;
+                }
+                shareLink.textContent = data.code || "No code available";
+                shareChannelModal.style.display = "flex";
+            } catch (err) {
+                spinner.style.display = "none";
+                console.error("Share channel error:", err);
+                showToast("Error fetching share code: " + err.message, true);
+            }
+        });
+
+        copyShareLinkBtn.addEventListener("click", function() {
+            navigator.clipboard.writeText(shareLink.textContent);
+            navigator.clipboard.writeText(code).then(() => {
+                showToast("Channel code copied to clipboard!");
+                shareChannelModal.style.display = "none";
+            }).catch(err => {
+                console.error("Copy code error:", err);
+                showToast("Error copying code: " + err.message, true);
+            });
+        });
+
+        cancelShareChannel.addEventListener("click", function() {
+            shareChannelModal.style.display = "none";
+        });
+
+        shareChannelModal.addEventListener("click", function(e) {
+            if (e.target === shareChannelModal) {
+                shareChannelModal.style.display = "none";
+            }
+        });
+
+        // Home button to return to default content
+        const homeBtn = document.getElementById("homeBtn");
+        homeBtn.addEventListener("click", function() {
+            currentChannelId = null;
+            isAdmin = false;
+            document.getElementById("channelContent").style.display = "none";
+            document.getElementById("defaultContent").style.display = "block";
+            fetchGlobalNotes();
+            sidebar.classList.remove("show"); // Close sidebar on mobile
+        });
+
+        // Search functionality
+        // Search functionality
+        // Search functionality with debouncing
+let searchTimeout = null;
+
+function debounceSearch(func, wait) {
+    return function (...args) {
+        clearTimeout(searchTimeout);
+        searchTimeout = setTimeout(() => func.apply(this, args), wait);
+    };
+}
+
+async function performSearch(query) {
+    const token = sessionStorage.getItem("token");
+    if (!token) {
+        showToast("Please log in to search.", true);
+        return;
+    }
+
+    const container = currentChannelId ? document.getElementById("channelMessages") : document.getElementById("globalMessages");
+    container.innerHTML = "";
+
+    try {
+        spinner.style.display = "block";
+        const url = `http://localhost:3000/api/search?query=${encodeURIComponent(query)}&channelId=${currentChannelId || ''}`;
+        const response = await fetch(url, {
+            headers: { Authorization: `Bearer ${token}` }
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        spinner.style.display = "none";
+
+        if (data.error) {
+            showToast(data.error, true);
+            container.innerHTML = "<p>Error fetching search results.</p>";
+            return;
+        }
+
+        if (data.documents && data.documents.length > 0) {
+            data.documents.forEach(doc => {
+                const docElement = renderDocument(doc);
+                container.appendChild(docElement);
+            });
+        } else {
+            container.innerHTML = `<p>No documents found for "${query}".</p>`;
+        }
+    } catch (err) {
+        spinner.style.display = "none";
+        console.error("Search error:", err);
+        showToast("Error searching documents: " + err.message, true);
+        container.innerHTML = "<p>Error fetching search results.</p>";
+    }
+}
+
+const debouncedSearch = debounceSearch(async (query) => {
+    if (query.length === 0) {
+        if (currentChannelId) {
+            fetchDocuments(currentChannelId);
+        } else {
+            fetchGlobalNotes();
+        }
+        clearSearch.style.display = "none";
+        return;
+    }
+
+    clearSearch.style.display = "block";
+    await performSearch(query);
+}, 500);
+
+searchBar.addEventListener("input", function () {
+    const query = searchBar.value.trim();
+    debouncedSearch(query);
+});
+
+clearSearch.addEventListener("click", function () {
+    searchBar.value = "";
+    clearSearch.style.display = "none";
+    if (currentChannelId) {
+        fetchDocuments(currentChannelId);
+    } else {
+        fetchGlobalNotes();
+    }
+});
+
+
+        // Initialize the app
+        async function initialize() {
+            const isLoggedIn = await checkLogin();
+            if (isLoggedIn) {
+                await fetchChannels();
+                await fetchGlobalNotes();
+            }
+        }
+
+        // Run initialization
+        initialize();
+    </script>
+</body>
+</html>

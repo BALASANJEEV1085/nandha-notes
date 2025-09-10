@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NANDHA NOTES - Login</title>
+    <link rel="icon" href="logo1.png">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        body {
+            background-color: #f5f6f8;
+            color: #1a1a1a;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 16px;
+            min-height: 56px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            object-fit: cover;
+            cursor: pointer;
+        }
+
+        .header-title {
+            font-size: 1.4em;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 16px;
+            position: relative;
+        }
+
+        /* Form Section */
+        .form-section {
+            position: relative;
+            width: 100%;
+            max-width: 980px;
+            height: 480px;
+            display: flex;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+            z-index: 2;
+            transition: all 0.5s ease-in-out;
+        }
+
+        /* Image Container */
+        .image-container {
+            flex: 0 0 40%;
+            overflow: hidden;
+            position: relative;
+            transition: all 0.5s ease-in-out;
+        }
+
+        .image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease-in-out;
+        }
+
+        /* Form Container */
+        .form-container {
+            flex: 1;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            transition: all 0.5s ease-in-out;
+            z-index: 3;
+            background: white;
+            min-width: 400px;
+        }
+
+        .form-container h2 {
+            font-size: 1.8em;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+
+        .form-container input {
+            padding: 12px 16px;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            font-size: 1em;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            min-height: 44px;
+            margin-bottom: 15px;
+            width: 100%;
+        }
+
+        .form-container input:focus {
+            border-color: #3498db;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+        }
+
+        .form-container .error-message {
+            color: #e74c3c;
+            font-size: 0.8em;
+            display: none;
+            margin-top: -10px;
+            margin-bottom: 10px;
+        }
+
+        .form-buttons {
+            display: flex;
+            justify-content: flex-end;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .form-buttons button {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9em;
+            font-weight: 500;
+            min-height: 44px;
+            transition: background-color 0.2s;
+        }
+
+        .form-buttons .confirm-btn {
+            background-color: #3498db;
+            color: white;
+        }
+
+        .form-buttons .confirm-btn:hover {
+            background-color: #2980b9;
+        }
+
+        .toggle-link {
+            text-align: center;
+            font-size: 0.9em;
+            color: #3498db;
+            cursor: pointer;
+            transition: color 0.2s;
+            margin-top: 15px;
+        }
+
+        .toggle-link:hover {
+            color: #2980b9;
+            text-decoration: underline;
+        }
+
+        .forgot-password {
+            text-align: right;
+            font-size: 0.9em;
+            color: #3498db;
+            cursor: pointer;
+            transition: color 0.2s;
+            margin-top: 5px;
+        }
+
+        .forgot-password:hover {
+            color: #2980b9;
+            text-decoration: underline;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        /* Password Field Container */
+        .password-container {
+            position: relative;
+            width: 100%;
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            font-size: 1em;
+            color: #666;
+        }
+
+        .password-toggle:hover {
+            color: #3498db;
+        }
+
+        /* Forgot Password Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
+
+        .modal-content h2 {
+            font-size: 1.4em;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+
+        .modal-content input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            font-size: 1em;
+            margin-bottom: 15px;
+        }
+
+        .modal-content .error-message {
+            color: #e74c3c;
+            font-size: 0.8em;
+            display: none;
+            margin-top: -10px;
+            margin-bottom: 10px;
+        }
+
+        .modal-buttons {
+            display: flex;
+            justify-content: flex-end;
+            gap: 8px;
+        }
+
+        .modal-buttons button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9em;
+        }
+
+        .modal-buttons .cancel-btn {
+            background-color: #e0e0e0;
+            color: #333;
+        }
+
+        .modal-buttons .confirm-btn {
+            background-color: #3498db;
+            color: white;
+        }
+
+        .modal-buttons .cancel-btn:hover {
+            background-color: #d0d0d0;
+        }
+
+        .modal-buttons .confirm-btn:hover {
+            background-color: #2980b9;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 1.2em;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .close-modal:hover {
+            color: #333;
+        }
+
+        /* Animation for form transition */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateX(20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .active-form {
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        /* Toast Notification */
+        .toast {
+            display: none;
+            position: fixed;
+            top: 70px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #2ecc71;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: 500;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            z-index: 3000;
+            animation: toastFade 2s ease-in-out;
+        }
+
+        .toast.error {
+            background-color: #e74c3c;
+        }
+
+        @keyframes toastFade {
+            0% { opacity: 0; transform: translateX(-50%) translateY(10px); }
+            10% { opacity: 1; transform: translateX(-50%) translateY(0); }
+            90% { opacity: 1; transform: translateX(-50%) translateY(0); }
+            100% { opacity: 0; transform: translateX(-50%) translateY(10px); }
+        }
+
+        /* Mobile Responsiveness */
+        @media screen and (max-width: 968px) {
+            .form-section {
+                flex-direction: column;
+                height: auto;
+                max-width: 500px;
+            }
+            
+            .image-container {
+                height: 200px;
+                flex: 0 0 auto;
+                width: 100%;
+            }
+            
+            .form-container {
+                padding: 30px;
+                min-width: auto;
+                width: 100%;
+            }
+        }
+        @media screen and (max-width: 968px) {
+            .image-container {
+                display: none !important;
+            }
+        }
+
+        /* 🔵 Remove blue background / glow on tap & focus for all elements */
+* {
+    -webkit-tap-highlight-color: transparent; /* Mobile Safari & Chrome */
+    -webkit-focus-ring-color: transparent;
+    outline: none !important;
+}
+
+button, input, a, img, .logo, .image-container img {
+    outline: none !important;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-focus-ring-color: transparent;
+}
+
+/* Prevent background flash on tap */
+button:focus, button:active,
+input:focus, input:active,
+a:focus, a:active,
+.logo:focus, .logo:active,
+.image-container img:focus, .image-container img:active {
+    outline: none !important;
+    background-color: inherit !important;
+    box-shadow: none !important;
+}
+
+
+
+        @media screen and (max-width: 768px) {
+            .header {
+                padding: 8px 12px;
+                min-height: 48px;
+            }
+
+            .header-title {
+                font-size: 1.2em;
+            }
+
+            .logo {
+                width: 32px;
+                height: 32px;
+            }
+
+            .main-content {
+                padding: 12px;
+            }
+
+            .form-container {
+                padding: 20px;
+            }
+
+            .form-container h2 {
+                font-size: 1.4em;
+            }
+
+            .form-container input {
+                font-size: 0.9em;
+                min-height: 40px;
+            }
+
+            .form-buttons button {
+                padding: 10px 20px;
+                font-size: 0.85em;
+            }
+
+            .toggle-link, .forgot-password {
+                font-size: 0.85em;
+            }
+
+            .toast {
+                top: 60px;
+                padding: 10px 20px;
+                font-size: 0.8em;
+                max-width: 90%;
+            }
+
+            .modal-content {
+                max-width: 90%;
+            }
+        }
+
+        @media screen and (max-width: 480px) {
+            .header-title {
+                font-size: 1em;
+            }
+
+            .logo {
+                width: 28px;
+                height: 28px;
+            }
+
+            .form-container {
+                padding: 15px;
+            }
+
+            .form-container h2 {
+                font-size: 1.2em;
+            }
+
+            .form-container input {
+                font-size: 0.85em;
+            }
+
+            .form-buttons button {
+                font-size: 0.8em;
+            }
+
+            .toggle-link, .forgot-password {
+                font-size: 0.8em;
+            }
+
+            .toast {
+                font-size: 0.75em;
+            }
+
+            .modal-content h2 {
+                font-size: 1.2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <div class="header-left">
+            <img src="logo1.png" class="logo" id="logo" alt="NANDHA NOTES Logo" onerror="this.src='https://via.placeholder.com/36';">
+            <div class="header-title">NANDHA NOTES</div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="form-section">
+            <!-- Image Container -->
+            <div class="image-container">
+                <img src="loginimage.jpg" alt="NANDHA NOTES" onerror="this.src='https://images.unsplash.com/photo-1501504905252-473c47e087f8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80'">
+            </div>
+            
+            <!-- Login Form -->
+            <div class="form-container active-form" id="loginForm">
+                <h2>SIGN IN</h2>
+                <input type="email" id="loginEmail" placeholder="Domain mail">
+                <p class="error-message" id="loginEmailError">Email is required</p>
+                <div class="password-container">
+                    <input type="password" id="loginPassword" placeholder="Password">
+                    <span class="password-toggle" id="toggleLoginPassword">👁️</span>
+                </div>
+                <p class="error-message" id="loginPasswordError">Password is required</p>
+                <p class="forgot-password" id="showForgotPassword">Forgot Password?</p>
+                <div class="form-buttons">
+                    <button class="confirm-btn" id="confirmLogin">Sign In</button>
+                </div>
+                <p class="toggle-link" id="showSignup">Don't have an account? Sign up here</p>
+            </div>
+
+            <!-- Signup Form -->
+            <div class="form-container hidden" id="signupForm">
+                <h2>SIGN UP</h2>
+                <input type="text" id="signupUsername" placeholder="Username">
+                <p class="error-message" id="signupUsernameError">Username is required</p>
+                <input type="email" id="signupEmail" placeholder="Domain mail">
+                <p class="error-message" id="signupEmailError">Email is required</p>
+                <div class="password-container">
+                    <input type="password" id="signupPassword" placeholder="Password">
+                    <span class="password-toggle" id="toggleSignupPassword">👁️</span>
+                </div>
+                <p class="error-message" id="signupPasswordError">Password is required</p>
+                <div class="form-buttons">
+                    <button class="confirm-btn" id="confirmSignup">Sign Up</button>
+                </div>
+                <p class="toggle-link" id="showLogin">Already have an account? Sign in here</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Forgot Password Modal -->
+    <div class="modal" id="forgotPasswordModal">
+        <div class="modal-content">
+            <span class="close-modal" id="closeModal">&times;</span>
+            <h2>Reset Password</h2>
+            <input type="email" id="resetEmail" placeholder="Domain mail">
+            <p class="error-message" id="resetEmailError">Valid email is required</p>
+            <div class="password-container">
+                <input type="password" id="resetPassword" placeholder="New Password">
+                <span class="password-toggle" id="toggleResetPassword">👁️</span>
+            </div>
+            <p class="error-message" id="resetPasswordError">Password is required</p>
+            <div class="password-container">
+                <input type="password" id="confirmResetPassword" placeholder="Confirm Password">
+                <span class="password-toggle" id="toggleConfirmResetPassword">👁️</span>
+            </div>
+            <p class="error-message" id="confirmResetPasswordError">Passwords do not match</p>
+            <div class="modal-buttons">
+                <button class="cancel-btn" id="cancelReset">Cancel</button>
+                <button class="confirm-btn" id="confirmReset">Reset Password</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toastMessage"></div>
+
+    <script>
+        // Toast notification function
+        function showToast(message, isError = false) {
+            const toast = document.getElementById("toastMessage");
+            toast.textContent = message;
+            toast.className = `toast ${isError ? 'error' : ''}`;
+            toast.style.display = "block";
+            setTimeout(() => {
+                toast.style.display = "none";
+            }, 2000);
+        }
+
+        // Logo click to reload
+        document.getElementById("logo").addEventListener("click", function() {
+            location.reload();
+        });
+
+        // Form elements
+        const loginForm = document.getElementById("loginForm");
+        const signupForm = document.getElementById("signupForm");
+        const forgotPasswordModal = document.getElementById("forgotPasswordModal");
+        const showSignup = document.getElementById("showSignup");
+        const showLogin = document.getElementById("showLogin");
+        const showForgotPassword = document.getElementById("showForgotPassword");
+        const closeModal = document.getElementById("closeModal");
+        const loginEmail = document.getElementById("loginEmail");
+        const loginPassword = document.getElementById("loginPassword");
+        const loginEmailError = document.getElementById("loginEmailError");
+        const loginPasswordError = document.getElementById("loginPasswordError");
+        const signupUsername = document.getElementById("signupUsername");
+        const signupEmail = document.getElementById("signupEmail");
+        const signupPassword = document.getElementById("signupPassword");
+        const signupUsernameError = document.getElementById("signupUsernameError");
+        const signupEmailError = document.getElementById("signupEmailError");
+        const signupPasswordError = document.getElementById("signupPasswordError");
+        const resetEmail = document.getElementById("resetEmail");
+        const resetPassword = document.getElementById("resetPassword");
+        const confirmResetPassword = document.getElementById("confirmResetPassword");
+        const resetEmailError = document.getElementById("resetEmailError");
+        const resetPasswordError = document.getElementById("resetPasswordError");
+        const confirmResetPasswordError = document.getElementById("confirmResetPasswordError");
+        const confirmLogin = document.getElementById("confirmLogin");
+        const confirmSignup = document.getElementById("confirmSignup");
+        const confirmReset = document.getElementById("confirmReset");
+        const cancelReset = document.getElementById("cancelReset");
+        const formSection = document.querySelector('.form-section');
+
+        // Password toggle functionality
+        function togglePassword(inputId, toggleId) {
+            const input = document.getElementById(inputId);
+            const toggle = document.getElementById(toggleId);
+            toggle.addEventListener("click", () => {
+                const type = input.type === "password" ? "text" : "password";
+                input.type = type;
+                toggle.textContent = type === "password" ? "👁️" : "🙈";
+            });
+        }
+
+        togglePassword("loginPassword", "toggleLoginPassword");
+        togglePassword("signupPassword", "toggleSignupPassword");
+        togglePassword("resetPassword", "toggleResetPassword");
+        togglePassword("confirmResetPassword", "toggleConfirmResetPassword");
+
+        // Toggle between login and signup forms
+        showSignup.addEventListener("click", function() {
+            formSection.style.opacity = "0.9";
+            setTimeout(() => {
+                loginForm.classList.remove("active-form");
+                loginForm.classList.add("hidden");
+                signupForm.classList.remove("hidden");
+                signupForm.classList.add("active-form");
+                resetLoginForm();
+                formSection.style.opacity = "1";
+            }, 300);
+        });
+
+        showLogin.addEventListener("click", function() {
+            formSection.style.opacity = "0.9";
+            setTimeout(() => {
+                signupForm.classList.remove("active-form");
+                signupForm.classList.add("hidden");
+                loginForm.classList.remove("hidden");
+                loginForm.classList.add("active-form");
+                resetSignupForm();
+                formSection.style.opacity = "1";
+            }, 300);
+        });
+
+        // Show/hide forgot password modal
+        showForgotPassword.addEventListener("click", () => {
+            forgotPasswordModal.style.display = "flex";
+        });
+
+        closeModal.addEventListener("click", () => {
+            forgotPasswordModal.style.display = "none";
+            resetForgotPasswordForm();
+        });
+
+        cancelReset.addEventListener("click", () => {
+            forgotPasswordModal.style.display = "none";
+            resetForgotPasswordForm();
+        });
+
+        // Reset login form
+        function resetLoginForm() {
+            loginEmail.value = "";
+            loginPassword.value = "";
+            loginEmailError.style.display = "none";
+            loginPasswordError.style.display = "none";
+            loginPassword.type = "password";
+            document.getElementById("toggleLoginPassword").textContent = "👁️";
+        }
+
+        // Reset signup form
+        function resetSignupForm() {
+            signupUsername.value = "";
+            signupEmail.value = "";
+            signupPassword.value = "";
+            signupUsernameError.style.display = "none";
+            signupEmailError.style.display = "none";
+            signupPasswordError.style.display = "none";
+            signupPassword.type = "password";
+            document.getElementById("toggleSignupPassword").textContent = "👁️";
+        }
+
+        // Reset forgot password form
+        function resetForgotPasswordForm() {
+            resetEmail.value = "";
+            resetPassword.value = "";
+            confirmResetPassword.value = "";
+            resetEmailError.style.display = "none";
+            resetPasswordError.style.display = "none";
+            confirmResetPasswordError.style.display = "none";
+            resetPassword.type = "password";
+            confirmResetPassword.type = "password";
+            document.getElementById("toggleResetPassword").textContent = "👁️";
+            document.getElementById("toggleConfirmResetPassword").textContent = "👁️";
+        }
+
+        // Validate login form
+        confirmLogin.addEventListener("click", async function() {
+            let valid = true;
+            loginEmailError.style.display = "none";
+            loginPasswordError.style.display = "none";
+
+            const emailPattern = /^[a-zA-Z0-9._%+-]+@nandhaengg\.org$/;
+            if (!emailPattern.test(loginEmail.value)) {
+                loginEmailError.style.display = "block";
+                valid = false;
+            }
+
+            if (!loginPassword.value) {
+                loginPasswordError.style.display = "block";
+                valid = false;
+            }
+
+            if (valid) {
+                try {
+                    const response = await fetch('http://localhost:3000/login', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ email: loginEmail.value, password: loginPassword.value })
+                    });
+                    const data = await response.json();
+                    if (data.error) {
+                        showToast(data.error, true);
+                    } else {
+                        sessionStorage.setItem("isLoggedIn", "true");
+                        sessionStorage.setItem("userEmail", loginEmail.value);
+                        sessionStorage.setItem("token", data.token);
+                        showToast("Sign-in successful!");
+                        resetLoginForm();
+                        setTimeout(() => {
+                            window.location.href = "index.html";
+                        }, 1000);
+                    }
+                } catch (e) {
+                    showToast("Error: Network issue or server not running.", true);
+                    console.error("Login failed:", e);
+                }
+            }
+        });
+
+        // Validate signup form
+        confirmSignup.addEventListener("click", async function() {
+            let valid = true;
+            signupUsernameError.style.display = "none";
+            signupEmailError.style.display = "none";
+            signupPasswordError.style.display = "none";
+
+            if (!signupUsername.value.trim()) {
+                signupUsernameError.style.display = "block";
+                valid = false;
+            }
+
+            const emailPattern = /^[a-zA-Z0-9._%+-]+@nandhaengg\.org$/;
+            if (!emailPattern.test(signupEmail.value)) {
+                signupEmailError.style.display = "block";
+                valid = false;
+            }
+
+            if (!signupPassword.value) {
+                signupPasswordError.style.display = "block";
+                valid = false;
+            }
+
+            if (valid) {
+                try {
+                    const response = await fetch('http://localhost:3000/signup', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            username: signupUsername.value.trim(),
+                            email: signupEmail.value,
+                            password: signupPassword.value
+                        })
+                    });
+                    const data = await response.json();
+                    if (data.error) {
+                        showToast(data.error, true);
+                    } else {
+                        sessionStorage.setItem("isLoggedIn", "true");
+                        sessionStorage.setItem("userEmail", signupEmail.value);
+                        sessionStorage.setItem("username", signupUsername.value);
+                        sessionStorage.setItem("token", data.token);
+                        showToast("Sign-up successful!");
+                        resetSignupForm();
+                        setTimeout(() => {
+                            window.location.href = "index.html";
+                        }, 1000);
+                    }
+                } catch (e) {
+                    showToast("Error: Network issue or server not running.", true);
+                    console.error("Signup failed:", e);
+                }
+            }
+        });
+
+        // Validate forgot password form
+        confirmReset.addEventListener("click", async function() {
+            let valid = true;
+            resetEmailError.style.display = "none";
+            resetPasswordError.style.display = "none";
+            confirmResetPasswordError.style.display = "none";
+
+            const emailPattern = /^[a-zA-Z0-9._%+-]+@nandhaengg\.org$/;
+            if (!emailPattern.test(resetEmail.value)) {
+                resetEmailError.style.display = "block";
+                valid = false;
+            }
+
+            if (!resetPassword.value) {
+                resetPasswordError.style.display = "block";
+                valid = false;
+            }
+
+            if (resetPassword.value !== confirmResetPassword.value) {
+                confirmResetPasswordError.style.display = "block";
+                valid = false;
+            }
+
+            if (valid) {
+                try {
+                    const response = await fetch('http://localhost:3000/reset-password', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            email: resetEmail.value,
+                            newPassword: resetPassword.value
+                        })
+                    });
+                    const data = await response.json();
+                    if (data.error) {
+                        showToast(data.error, true);
+                    } else {
+                        showToast("Password reset successful!");
+                        resetForgotPasswordForm();
+                        forgotPasswordModal.style.display = "none";
+                    }
+                } catch (e) {
+                    showToast("Error: Network issue or server not running.", true);
+                    console.error("Password reset failed:", e);
+                }
+            }
+        });
+    </script>
+</body>
+</html>
