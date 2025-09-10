@@ -1423,6 +1423,8 @@
     </div>
 
     <script>
+        const API_BASE = "https://nandha-notes.onrender.com";
+
         // Utility function to show toast notifications
         function showToast(message, isError = false) {
             const toast = document.getElementById("toastMessage");
@@ -1467,7 +1469,7 @@
                 return false;
             }
             try {
-                const response = await fetch("http://localhost:3000/profile", {
+                const response = await fetch("https://nandha-notes.onrender.com/profile", {
                     headers: { Authorization: `Bearer ${token}` }
                 });
                 const data = await response.json();
@@ -1541,7 +1543,7 @@
         // Preview file by opening in a new tab with iframe for PPT/PPTX or direct for others
         async function previewFile(docId, filename) {
             const isPPT = filename && (filename.toLowerCase().endsWith('.ppt') || filename.toLowerCase().endsWith('.pptx'));
-            const fileUrl = `http://localhost:3000/api/file/${docId}?download=false`;
+            const fileUrl = `https://nandha-notes.onrender.com/api/file/${docId}?download=false`;
 
             if (isPPT) {
                 const newTab = window.open("", "_blank");
@@ -1580,7 +1582,7 @@
         // Download via backend
         function downloadFile(docId, filename) {
             const link = document.createElement("a");
-            link.href = `http://localhost:3000/api/file/${docId}?download=true`;
+            link.href = `https://nandha-notes.onrender.com/api/file/${docId}?download=true`;
             link.download = filename || "nandha-notes-file";
             document.body.appendChild(link);
             link.click();
@@ -1732,7 +1734,7 @@
                 try {
                     spinner.style.display = "block";
                     const token = sessionStorage.getItem("token");
-                    const response = await fetch('http://localhost:3000/api/upload', {
+                    const response = await fetch('https://nandha-notes.onrender.com/api/upload', {
                         method: 'POST',
                         headers: { Authorization: `Bearer ${token}` },
                         body: formData
@@ -1745,7 +1747,7 @@
                     }
                     showToast(`File uploaded successfully! Credits: ${data.credits || 0}`);
                     resetUploadForm();
-                    const profileResponse = await fetch("http://localhost:3000/profile", {
+                    const profileResponse = await fetch("https://nandha-notes.onrender.com/profile", {
                         headers: { Authorization: `Bearer ${token}` }
                     });
                     const profileData = await profileResponse.json();
@@ -1793,7 +1795,7 @@
                     showToast("No authentication token found.", true);
                     return;
                 }
-                const response = await fetch("http://localhost:3000/api/channels", {
+                const response = await fetch("https://nandha-notes.onrender.com/api/channels", {
                     headers: { Authorization: `Bearer ${token}` }
                 });
                 const data = await response.json();
@@ -1839,7 +1841,7 @@
 
             try {
                 const token = sessionStorage.getItem("token");
-                const response = await fetch(`http://localhost:3000/api/channels/${channelId}/users`, {
+                const response = await fetch(`https://nandha-notes.onrender.com/api/channels/${channelId}/users`, {
                     headers: { Authorization: `Bearer ${token}` }
                 });
                 const data = await response.json();
@@ -1860,7 +1862,7 @@
         async function fetchDocuments(channelId) {
             const token = sessionStorage.getItem("token");
             try {
-                const response = await fetch(`http://localhost:3000/api/channels/${channelId}/documents`, {
+                const response = await fetch(`https://nandha-notes.onrender.com/api/channels/${channelId}/documents`, {
                     headers: { Authorization: `Bearer ${token}` }
                 });
                 const data = await response.json();
@@ -1886,7 +1888,7 @@
         async function fetchGlobalNotes() {
             const token = sessionStorage.getItem("token");
             try {
-                const response = await fetch("http://localhost:3000/api/notes", {
+                const response = await fetch("https://nandha-notes.onrender.com/api/notes", {
                     headers: { Authorization: `Bearer ${token}` }
                 });
                 const data = await response.json();
@@ -1986,7 +1988,7 @@
             try {
                 spinner.style.display = "block";
                 const token = sessionStorage.getItem("token");
-                const response = await fetch("http://localhost:3000/api/channels/create", {
+                const response = await fetch("https://nandha-notes.onrender.com/api/channels/create", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
@@ -2050,7 +2052,7 @@
             try {
                 spinner.style.display = "block";
                 const token = sessionStorage.getItem("token");
-                const response = await fetch("http://localhost:3000/api/channels/join", {
+                const response = await fetch("https://nandha-notes.onrender.com/api/channels/join", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
@@ -2095,7 +2097,7 @@
             try {
                 spinner.style.display = "block";
                 const token = sessionStorage.getItem("token");
-                const response = await fetch(`http://localhost:3000/api/channels/${currentChannelId}/users`, {
+                const response = await fetch(`https://nandha-notes.onrender.com/api/channels/${currentChannelId}/users`, {
                     headers: { Authorization: `Bearer ${token}` }
                 });
                 const data = await response.json();
@@ -2153,7 +2155,7 @@
             try {
                 spinner.style.display = "block";
                 const token = sessionStorage.getItem("token");
-                const response = await fetch(`http://localhost:3000/api/users/${userId}/profile`, {
+                const response = await fetch(`https://nandha-notes.onrender.com/api/users/${userId}/profile`, {
                     headers: { Authorization: `Bearer ${token}` }
                 });
                 const data = await response.json();
@@ -2193,7 +2195,7 @@
             try {
                 spinner.style.display = "block";
                 const token = sessionStorage.getItem("token");
-                const response = await fetch(`http://localhost:3000/api/channels/${currentChannelId}/kick-user`, {
+                const response = await fetch(`https://nandha-notes.onrender.com/api/channels/${currentChannelId}/kick-user`, {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
@@ -2229,7 +2231,7 @@
             try {
                 spinner.style.display = "block";
                 const token = sessionStorage.getItem("token");
-                const response = await fetch(`http://localhost:3000/api/channels/${currentChannelId}/share`, {
+                const response = await fetch(`https://nandha-notes.onrender.com/api/channels/${currentChannelId}/share`, {
                     headers: { Authorization: `Bearer ${token}` }
                 });
                 const data = await response.json();
@@ -2303,7 +2305,7 @@ async function performSearch(query) {
 
     try {
         spinner.style.display = "block";
-        const url = `http://localhost:3000/api/search?query=${encodeURIComponent(query)}&channelId=${currentChannelId || ''}`;
+        const url = `https://nandha-notes.onrender.com/api/search?query=${encodeURIComponent(query)}&channelId=${currentChannelId || ''}`;
         const response = await fetch(url, {
             headers: { Authorization: `Bearer ${token}` }
         });
