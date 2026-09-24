@@ -11,7 +11,7 @@ env:
   INSTANCE_ID: i-0dbacb1324c020d18
   SERVER_NAME: nandha-notes-server
   PUBLIC_IP: 35.154.76.18
-  TARGET_PORT: 5000
+  TARGET_PORT: 3000
   DOCKERFILE_PATH: .
 
 jobs:
@@ -183,7 +183,7 @@ jobs:
           echo "==> Verifying live service health on public endpoint..."
           # Use literal env vars from workflow env (no ${ env.VAR } in job env block!)
           PROBE_HOST="$${PUBLIC_IP:-35.154.76.18}"
-          TARGET_PORT="$${TARGET_PORT:-5000}"
+          TARGET_PORT="$${TARGET_PORT:-3000}"
           if [ -z "$PROBE_HOST" ] || [ "$PROBE_HOST" = "None" ]; then
             echo "==> No public IP or domain configured; skipping external HTTP probe."
             exit 0
