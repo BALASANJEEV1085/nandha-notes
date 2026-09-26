@@ -14,7 +14,7 @@ env:
   SECRET_ID: deptic/nandha-notes/secrets
   PUBLIC_IP: 3.7.135.174
   PUBLIC_URL: http://3.7.135.174
-  CONTAINER_PORT: 5000
+  CONTAINER_PORT: 3000
   DOCKERFILE_PATH: .
 
 jobs:
@@ -44,7 +44,7 @@ jobs:
           npm --version
           npm install --omit=dev --no-audit --no-fund
           node --check server.js
-          test -f server.js && test -f package.json && test -f Dockerfile
+          test -f server.js && test -f package.json && test -f Dockerfile && test -f index.html && test -f login.html
           echo "Build diagnostics passed: server.js syntax OK, dependencies installed."
 
       - name: Set up Docker Buildx
@@ -90,78 +90,80 @@ jobs:
             echo "==> Resolving active EC2 instance by tag Name=$SERVER_NAME..."
             RESOLVED_ID=$(aws ec2 describe-instances --region "$REGION" \
               --filters "Name=tag:Name,Values=$SERVER_NAME" "Name=instance-state-name,Values=running" \
-              --query "Reservations[0].Instances[0].InstanceId" --output text 2>/dev/null || true)
+              --query "Reservations[0].Instances[0].InstanceId" --output text)
             if [ -n "$RESOLVED_ID" ] && [ "$RESOLVED_ID" != "None" ]; then
               INSTANCE_ID="$RESOLVED_ID"
               echo "==> Resolved instance: $INSTANCE_ID"
             else
-              echo "ERROR: no running EC2 instance found for INSTANCE_ID or tag Name=$SERVER_NAME" >&2
+              echo "ERROR: No running EC2 instance found for INSTANCE_ID or tag Name=$SERVER_NAME" >&2
               exit 1
             fi
           fi
-          echo "Deploying to instance $INSTANCE_ID"
 
           cat > /tmp/ssm-params.json << 'SSMPARAMS'
           {
             "commands": [
               "set -e",
-              "export AWS_DEFAULT_REGION=ap-south-1",
-              "aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 759204735992.dkr.ecr.ap-south-1.amazonaws.com",
-              "docker pull 759204735992.dkr.ecr.ap-south-1.amazonaws.com/nandha-notes:latest",
+              "export REGION=ap-south-1",
+              "export ECR_REGISTRY=759204735992.dkr.ecr.ap-south-1.amazonaws.com",
+              "export IMAGE_URI=759204735992.dkr.ecr.ap-south-1.amazonaws.com/nandha-notes:latest",
+              "aws ecr get-login-password --region $REGION | docker login --username AWS --password-stdin $ECR_REGISTRY",
+              "docker pull $IMAGE_URI",
               "docker stop app || true",
               "docker rm app || true",
-              "ENV_JSON=$(aws secretsmanager get-secret-value --secret-id deptic/nandha-notes/secrets --region ap-south-1 --query SecretString --output text)",
-              "echo \"$ENV_JSON\" > /tmp/app.env.json",
-              "docker run -d --restart always --name app -p 80:5000 --env-file /tmp/app.env.json 759204735992.dkr.ecr.ap-south-1.amazonaws.com/nandha-notes:latest",
-              "docker ps --filter name=app"
+              "docker run -d --restart always -p 80:3000 --name app $IMAGE_URI"
             ]
           }
           SSMPARAMS
 
           COMMAND_ID=$(aws ssm send-command --instance-ids "$INSTANCE_ID" --region "$REGION" --document-name "AWS-RunShellScript" --parameters file:///tmp/ssm-params.json --query "Command.CommandId" --output text)
-          echo "CommandId=$COMMAND_ID"
+          echo "COMMAND_ID=$COMMAND_ID"
 
-          STATUS=""
+          # Wait for SSM command completion
           for i in $(seq 1 60); do
             STATUS=$(aws ssm get-command-invocation --command-id "$COMMAND_ID" --instance-id "$INSTANCE_ID" --region "$REGION" --query "Status" --output text 2>/dev/null || echo "Pending")
             echo "SSM status: $STATUS"
-            if [ "$STATUS" = "Success" ]; then break; fi
-            if [ "$STATUS" = "Failed" ] || [ "$STATUS" = "Cancelled" ] || [ "$STATUS" = "TimedOut" ]; then
+            if [ "$STATUS" = "Success" ]; then
+              echo "Deployment command succeeded on $INSTANCE_ID"
+              break
+            fi
+            if [ "$STATUS" = "Failed" ] || [ "$STATUS" = "TimedOut" ] || [ "$STATUS" = "Cancelled" ]; then
+              echo "ERROR: SSM command $STATUS" >&2
               aws ssm get-command-invocation --command-id "$COMMAND_ID" --instance-id "$INSTANCE_ID" --region "$REGION" --query "StandardErrorContent" --output text || true
               exit 1
             fi
-            sleep 5
+            sleep 10
           done
-          if [ "$STATUS" != "Success" ]; then echo "SSM command did not succeed in time" >&2; exit 1; fi
-          echo "SSM deploy command succeeded on $INSTANCE_ID"
+          if [ "$STATUS" != "Success" ]; then
+            echo "ERROR: SSM command did not complete in time" >&2
+            exit 1
+          fi
 
-      - name: Verify deployment (health check, must be HTTP 200)
+      - name: Verify deployment (health check HTTP 200)
         run: |
           set -e
-          URL="http://3.7.135.174"
+          URL="$PUBLIC_URL"
+          echo "Waiting for application to become healthy at $URL ..."
           for i in $(seq 1 30); do
             CODE=$(curl -s -o /tmp/health-body -w "%{http_code}" "$URL" || true)
             echo "Attempt $i: HTTP $CODE"
-            if [ "$CODE" = "200" ]; then break; fi
+            if [ "$CODE" = "200" ]; then
+              echo "Health check passed: HTTP 200 from $URL"
+              head -c 300 /tmp/health-body || true
+              exit 0
+            fi
             sleep 10
           done
-          if [ "$CODE" != "200" ]; then
-            echo "Health check failed; last response body:" >&2
-            cat /tmp/health-body >&2 || true
-            exit 1
-          fi
-          echo "Health check passed with HTTP 200 at $URL"
+          echo "ERROR: health check failed; last HTTP code: $CODE" >&2
+          exit 1
 
       - name: Summary outputs
         run: |
-          {
-            echo "public_ip=3.7.135.174"
-            echo "public_url=http://3.7.135.174"
-            echo "alb_dns_name=3.7.135.174"
-            echo "instance_id=i-0628d42586ea94f9e"
-            echo "ecr_repo_url=759204735992.dkr.ecr.ap-south-1.amazonaws.com/nandha-notes"
-            echo "security_group_id=sg-046990a650115c861"
-            echo "iam_instance_profile=nandha-notes-instance-profile"
-            echo "iam_role=nandha-notes-ec2-role"
-          } >> "$GITHUB_OUTPUT"
-        id: summary
+          echo "public_ip=3.7.135.174"
+          echo "public_url=http://3.7.135.174"
+          echo "alb_dns_name=3.7.135.174"
+          echo "instance_id=i-0628d42586ea94f9e"
+          echo "ecr_repo_url=759204735992.dkr.ecr.ap-south-1.amazonaws.com/nandha-notes"
+          echo "security_group_id=sg-046990a650115c861"
+          echo "iam_instance_profile=nandha-notes-instance-profile"
+          echo "iam_role=nandha-notes-ec2-role"
